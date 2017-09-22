@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Movies Reviews
+{% endblock %}
+
+{% block content %}
+
+    {% for movie in movies %}
+        <div class="col-md-4">
+            <h2>{{ movie.title }}</h2>
+            <p style="text-align: justify;">{{ movie.review|linebreaksbr }}</p>
+            <p><b>Director: </b>{{ movie.director }}</p>
+            <p><b>Created Date: </b>{{ movie.created_date }}</p>
+            <p><a class="btn btn-default" href="https://getbootstrap.com/docs/3.3/examples/jumbotron/#" role="button">View details »</a></p>
+        </div>
+    {% endfor %}
+
+
+
+
+{% endblock %}
