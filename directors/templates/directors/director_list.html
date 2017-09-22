@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    List of Directors
+{% endblock %}
+
+{% block jumbotron %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Movies Review</h1>
+            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Add a director</a></p>
+        </div>
+    </div>
+    {% endblock %}
+
+{% block content %}
+
+
+
+
+    <div class="row">
+        {% for director in directors %}
+        <div class="card-group col-sm-3 text-justify">
+            <div class="card border-secondary mb-3">
+                <img class="card-img-top" src="{% url 'image' director.photo %}" alt="Card image cap" width="150">
+            <div class="card-body">
+                <h4 class="card-title">{{ director.get_full_name }}</h4>
+                <p class="card-text">{{  director.bio|linebreaksbr }}</p>
+                <a href="{% url 'Director:detail' director.slug %}" class="btn btn-primary">All movies</a>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}

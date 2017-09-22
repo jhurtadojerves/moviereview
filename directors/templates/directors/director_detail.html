@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Movies Reviews
+{% endblock %}
+
+
+{% block jumbotron %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{{ director.get_full_name }}</h1>
+            <p style="text-align: justify;">{{ director.bio|linebreaksbr }}</p>
+            <p><b>Birthday: </b>{{ director.birthday }}</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Edit</a></p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+     <div class="row">
+        {% for movie in director.movies.all %}
+        <div class="card-group col-sm-3 text-justify">
+            <div class="card border-secondary mb-3">
+                <img class="card-img-top" src="{% url 'image' movie.cover %}" alt="Card image cap" width="150">
+            <div class="card-body">
+                <h4 class="card-title">{{ movie.title }}</h4>
+                <p class="card-text">{{ movie.review|linebreaksbr }}</p>
+                <a href="{% url 'Movie:detail' movie.slug %}" class="btn btn-primary">Details</a>
+            </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}

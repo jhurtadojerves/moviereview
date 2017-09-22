@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Movies Reviews
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        {% for movie in movies %}
+        <div class="card-group col-sm-3 text-justify">
+            <div class="card border-secondary mb-3">
+                <img class="card-img-top" src="{% url 'image' movie.cover %}" alt="Card image cap" width="150">
+            <div class="card-body">
+                <h4 class="card-title">{{ movie.title }}</h4>
+                <p class="card-text">{{ movie.review|linebreaksbr }}</p>
+                <a href="{% url 'Movie:detail' movie.slug %}" class="btn btn-primary">Details</a>
+            </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
