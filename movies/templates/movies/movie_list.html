@@ -11,7 +11,9 @@
 
     <div class="row">
         {% for movie in movies %}
+
         <div class="card-group col-sm-3 text-justify">
+            <a href="{% url 'Movie:detail' movie.slug %}" style="text-decoration: none; color:black;">
             <div class="card border-secondary mb-3">
                 <img class="card-img-top" src="{{ movie.cover.url }}" alt="Card image cap" width="150">
             <div class="card-body">
@@ -22,10 +24,11 @@
                 {% endfor %}
 
                 <p class="card-text">{{ movie.synopsis|linebreaksbr }}</p>
-                <a href="{% url 'Movie:detail' movie.slug %}" class="btn btn-primary">Details</a>
             </div>
             </div>
+            </a>
         </div>
+
 
         {% endfor %}
     </div>

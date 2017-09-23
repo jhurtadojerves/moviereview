@@ -44,7 +44,6 @@ class MovieDetail(DetailView):
         return context
 
 
-
 @method_decorator(login_required, name='dispatch')
 class MovieUpdate(UpdateView):
     model = Movie

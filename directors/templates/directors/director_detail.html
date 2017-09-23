@@ -2,7 +2,7 @@
 {% load app_filters %}
 {% load static %}
 {% block title %}
-    Movies Reviews
+    {{ director.get_full_name }}
 {% endblock %}
 
 
@@ -22,17 +22,20 @@
      <div class="row">
         {% for movie in director.movies.all %}
         <div class="card-group col-sm-3 text-justify">
+            <a href="{% url 'Movie:detail' movie.slug %}" style="text-decoration: none; color:black;">
             <div class="card border-secondary mb-3">
                 <img class="card-img-top" src="{{ movie.cover.url }}" alt="Card image cap" width="150">
             <div class="card-body">
+
                 <h4 class="card-title">{{ movie.title }}</h4>
                 {% for i in movie.slug|ratio %}
                     <img src="{% static 'img/star.png' %}" width="25">
                 {% endfor %}
+
                 <p class="card-text">{{ movie.synopsis|linebreaksbr }}</p>
-                <a href="{% url 'Movie:detail' movie.slug %}" class="btn btn-primary">Details</a>
             </div>
             </div>
+            </a>
         </div>
 
         {% endfor %}
