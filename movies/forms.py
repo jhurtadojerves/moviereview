@@ -7,10 +7,10 @@ from .models import Movie
 class UpdateForm(ModelForm):
     class Meta:
         model = Movie
-        fields = ('title', 'review', 'director',)
+        fields = ('title', 'synopsis', 'director',)
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'review': forms.Textarea(attrs={'class': 'form-control'}),
+            'synopsis': forms.Textarea(attrs={'class': 'form-control'}),
             'director': forms.Select(attrs={'class': 'form-control'}),
         }
 
@@ -18,9 +18,9 @@ class UpdateForm(ModelForm):
 class CreateForm(ModelForm):
     class Meta:
         model = Movie
-        fields = ('title', 'review', 'director', 'cover', )
+        fields = ('title', 'synopsis', 'director', 'cover', )
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'review': forms.Textarea(attrs={'class': 'form-control'}),
+            'synopsis': forms.Textarea(attrs={'class': 'form-control'}),
             'director': forms.Select(attrs={'class': 'form-control'}),
         }

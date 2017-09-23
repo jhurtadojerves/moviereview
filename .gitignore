@@ -106,6 +106,6 @@ venv.bak/
 .idea
 
 db.sqlite3
-/media
+media
 moviereview/media
 

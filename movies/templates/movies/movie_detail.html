@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-
+{% load app_filters %}
+{% load static %}
 {% block title %}
     Movies Reviews
 {% endblock %}
@@ -9,10 +10,34 @@
     <div class="jumbotron">
         <div class="container">
             <h1>{{ movie.title }}</h1>
-            <p style="text-align: justify;">{{ movie.review|linebreaksbr }}</p>
+            {% for i in movie.slug|ratio %}
+                <img src="{% static 'img/star.png' %}" width="25">
+            {% endfor %}
+            <p style="text-align: justify;">{{ movie.synopsis|linebreaksbr }}</p>
             <p><b>Director: </b>{{ movie.director }}</p>
             <p><b>Created Date: </b>{{ movie.created_date }}</p>
             <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:update' movie.slug %}" role="button">Edit</a></p>
         </div>
     </div>
+{% endblock %}
+
+
+{% block content %}
+    {% if movie.review_set.all %}
+        {% for review in movie.review_set.all %}
+            <div class="card mb-3">
+            <div class="card-body">
+                <h4 class="card-title">{{ review.user.user.get_full_name }}</h4>
+                {% for i in review.id|stars %}
+                    <img src="{% static 'img/star.png' %}" width="25">
+                {% endfor %}
+                <p class="card-text">{{ review.comment }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+
+
+
 {% endblock %}
