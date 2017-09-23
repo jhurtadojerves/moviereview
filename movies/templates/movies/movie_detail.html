@@ -23,11 +23,14 @@
 
 
 {% block content %}
+    {% if not created_comment %}
+        <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:review_create' movie.slug %}" role="button">Add a Review</a></p>
+    {% endif %}
     {% if movie.review_set.all %}
         {% for review in movie.review_set.all %}
             <div class="card mb-3">
             <div class="card-body">
-                <h4 class="card-title">{{ review.user.user.get_full_name }}</h4>
+                <h4 class="card-title"><a href="#">{{ review.user.user.get_full_name }}</a></h4>
                 {% for i in review.id|stars %}
                     <img src="{% static 'img/star.png' %}" width="25">
                 {% endfor %}
@@ -36,8 +39,5 @@
         </div>
         {% endfor %}
     {% endif %}
-
-
-
 
 {% endblock %}
