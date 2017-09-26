@@ -18,10 +18,11 @@ def ratio(value):
         ratio = round(sum_rating / len_rating)
     else:
         ratio = 0
-    return range(0, ratio)
+    return ratio
 
 
 @register.filter(name='stars')
 def stars(value):
     rating = Review.objects.get(id=value)
-    return range(0, rating.rating)
+    #return range(0, rating.rating)
+    return rating.rating

@@ -39,6 +39,7 @@ class MovieDetail(DetailView):
         context = super(MovieDetail, self).get_context_data(**kwargs)
         profile = Profile.objects.get(user=self.request.user)
         movie = Movie.objects.get(slug=self.kwargs['slug'])
+
         if Review.objects.filter(user=profile, movie=movie).exists():
             context['created_comment'] = True
         return context
@@ -63,7 +64,7 @@ class ReviewCreate(CreateView):
         profile = Profile.objects.get(user=self.request.user)
         movie = Movie.objects.get(slug=self.kwargs['slug'])
         if Review.objects.filter(user=profile, movie=movie).exists():
-            return HttpResponseRedirect(reverse('Movie:detail', args=(movie.slug,)))
+            return HttpResponseRedirect(reverse('Movie:review_update', args=(movie.slug,)))
         else:
             return super(ReviewCreate, self).get(request, *args, **kwargs)
 
@@ -74,3 +75,26 @@ class ReviewCreate(CreateView):
         form.save()
 
         return HttpResponseRedirect(reverse('Movie:detail', args=(movie.slug,)))
+
+
+@method_decorator(login_required, name='dispatch')
+class ReviewUpdate(UpdateView):
+    model = Review
+    form_class = ReviewCreateForm
+    template_name_suffix = '_update'
+
+    def get_object(self, queryset=None):
+        queryset = Review.objects.get(user__user=self.request.user, movie=Movie.objects.get(slug=self.kwargs['slug']))
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        profile = Profile.objects.get(user=self.request.user)
+        movie = Movie.objects.get(slug=self.kwargs['slug'])
+        if not Review.objects.filter(user=profile, movie=movie).exists():
+            return HttpResponseRedirect(reverse('Movie:review_create', args=(movie.slug,)))
+        else:
+            return super(ReviewUpdate, self).get(request, *args, **kwargs)
+
+    def get_success_url(self):
+        movie = Movie.objects.get(slug=self.kwargs['slug'])
+        return reverse('Movie:detail', args=(movie.slug,))

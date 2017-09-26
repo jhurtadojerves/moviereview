@@ -10,12 +10,17 @@
     <div class="jumbotron">
         <div class="container">
             <h1>{{ movie.title }}</h1>
-            {% for i in movie.slug|ratio %}
-                <img src="{% static 'img/star.png' %}" width="25">
-            {% endfor %}
+                <span class="star star-{{ movie.slug|ratio }}">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </span>
             <p style="text-align: justify;">{{ movie.synopsis|linebreaksbr }}</p>
-            <p><b>Director: </b>{{ movie.director }}</p>
+            <p><b>Director: </b><a href="{% url 'Director:detail' movie.director.slug %}">{{ movie.director }}</a></p>
             <p><b>Created Date: </b>{{ movie.created_date }}</p>
+            <p><b>Added by: </b><a href="{% url 'Profile:detail' movie.author.user %}">{{ movie.author }}</a></p>
             <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:update' movie.slug %}" role="button">Edit</a></p>
         </div>
     </div>
@@ -23,6 +28,7 @@
 
 
 {% block content %}
+    <h2>Reviews about this movie</h2> <br>
     {% if not created_comment %}
         <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:review_create' movie.slug %}" role="button">Add a Review</a></p>
     {% endif %}
@@ -30,10 +36,19 @@
         {% for review in movie.review_set.all %}
             <div class="card mb-3">
             <div class="card-body">
-                <h4 class="card-title"><a href="#">{{ review.user.user.get_full_name }}</a></h4>
-                {% for i in review.id|stars %}
-                    <img src="{% static 'img/star.png' %}" width="25">
-                {% endfor %}
+                <h4 class="card-title"><a href="{% url 'Profile:detail' review.user.user.username %}">{{ review.user.user.get_full_name }}</a>
+                {% if review.user.user.username == user.username %}
+                    <a href="{% url 'Movie:review_update' movie.slug %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% endif %}
+
+                </h4>
+                <span class="star star-{{ review.id|stars }}">
+                    <i class="fa fa-star" aria-hidden="true" title="Update"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </span>
                 <p class="card-text">{{ review.comment }}</p>
             </div>
         </div>

@@ -22,15 +22,17 @@
     <div class="row">
         {% for director in directors %}
         <div class="card-group col-sm-3 text-justify">
-            <a href="{% url 'Director:detail' director.slug %}" style="text-decoration: none; color:black;">
+
             <div class="card border-secondary mb-3">
-                <img class="card-img-top" src="{{ director.photo.url }}" alt="Card image cap" width="150">
-            <div class="card-body">
-                <h4 class="card-title">{{ director.get_full_name }}</h4>
-                <p class="card-text">{{  director.bio|linebreaksbr }}</p>
+                <a href="{% url 'Director:detail' director.slug %}" style="text-decoration: none; color:black;">
+                    <img class="card-img-top" src="{{ director.photo.url }}" alt="Card image cap" width="150">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ director.get_full_name }}</h4>
+                        <p class="card-text">{{  director.bio|linebreaksbr }}</p>
+                    </div>
+                </a>
             </div>
-            </div>
-            </a>
+
         </div>
         {% endfor %}
     </div>

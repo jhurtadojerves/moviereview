@@ -9,7 +9,7 @@
 {% block jumbotron %}
     <div class="jumbotron">
         <div class="container">
-            <h1>{{ director.get_full_name }}</h1>
+            <h1>{{ director }}</h1>
             <p style="text-align: justify;">{{ director.bio|linebreaksbr }}</p>
             <p><b>Birthday: </b>{{ director.birthday }}</p>
             <p><a class="btn btn-primary btn-lg" href="#" role="button">Edit</a></p>
@@ -18,24 +18,31 @@
 {% endblock %}
 
 {% block content %}
-
+    <h1>Movies directed by {{ director }}</h1><br><br>
      <div class="row">
+
         {% for movie in director.movies.all %}
         <div class="card-group col-sm-3 text-justify">
-            <a href="{% url 'Movie:detail' movie.slug %}" style="text-decoration: none; color:black;">
+
             <div class="card border-secondary mb-3">
-                <img class="card-img-top" src="{{ movie.cover.url }}" alt="Card image cap" width="150">
-            <div class="card-body">
+                <a href="{% url 'Movie:detail' movie.slug %}" style="text-decoration: none; color:black;">
+                    <img class="card-img-top" src="{{ movie.cover.url }}" alt="Card image cap" width="150">
+                    <div class="card-body">
 
-                <h4 class="card-title">{{ movie.title }}</h4>
-                {% for i in movie.slug|ratio %}
-                    <img src="{% static 'img/star.png' %}" width="25">
-                {% endfor %}
+                        <h4 class="card-title">{{ movie.title }}</h4>
+                        <span class="star star-{{ movie.slug|ratio }}">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </span>
 
-                <p class="card-text">{{ movie.synopsis|linebreaksbr }}</p>
+                        <p class="card-text">{{ movie.synopsis|linebreaksbr }}</p>
+                    </div>
+                </a>
             </div>
-            </div>
-            </a>
+
         </div>
 
         {% endfor %}

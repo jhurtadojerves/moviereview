@@ -13,20 +13,27 @@
         {% for movie in movies %}
 
         <div class="card-group col-sm-3 text-justify">
-            <a href="{% url 'Movie:detail' movie.slug %}" style="text-decoration: none; color:black;">
+
             <div class="card border-secondary mb-3">
+            <a href="{% url 'Movie:detail' movie.slug %}" style="text-decoration: none; color:black;">
                 <img class="card-img-top" src="{{ movie.cover.url }}" alt="Card image cap" width="150">
-            <div class="card-body">
 
-                <h4 class="card-title">{{ movie.title }}</h4>
-                {% for i in movie.slug|ratio %}
-                    <img src="{% static 'img/star.png' %}" width="25">
-                {% endfor %}
+                <div class="card-body">
 
-                <p class="card-text">{{ movie.synopsis|linebreaksbr }}</p>
-            </div>
-            </div>
+                    <h4 class="card-title">{{ movie.title }}</h4>
+                    <span class="star star-{{ movie.slug|ratio }}">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </span>
+
+                    <p class="card-text">{{ movie.synopsis|linebreaksbr }}</p>
+                </div>
             </a>
+            </div>
+
         </div>
 
 
