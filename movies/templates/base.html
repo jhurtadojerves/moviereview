@@ -45,6 +45,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Director:list' %}">Directors</a>
                 </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Profile:detail' user.username %}">Profile</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Profile:sign_out' %}">LogOut</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
@@ -55,7 +64,9 @@
         <div class="container">
             <h1>Movies Review</h1>
             <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:create' %}" role="button">Add a moview</a></p>
+            {% if user.is_authenticated %}
+                <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:create' %}" role="button">Add a moview</a></p>
+            {% endif %}
         </div>
     </div>
     {% endblock %}

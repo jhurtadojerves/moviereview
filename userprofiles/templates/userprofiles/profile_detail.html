@@ -2,7 +2,7 @@
 {% load app_filters %}
 {% load static %}
 {% block title %}
-    {{ director.get_full_name }}
+    {{ profile }} User Profile
 {% endblock %}
 
 
@@ -12,7 +12,7 @@
             <h1>{{ profile }}</h1>
             <p style="text-align: justify;">{{ profile.about|linebreaksbr }}</p>
             {% if profile.user.username == user.username %}
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Edit profile</a></p>
+            <p><a class="btn btn-primary btn-lg" href={% url 'Profile:update' user.username %} role="button">Edit Profile</a></p>
             {% endif %}
         </div>
     </div>

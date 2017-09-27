@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Movies Reviews
+{% endblock %}
+
+{% block jumbotron %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Movies Review</h1>
+            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        </div>
+    </div>
+    {% endblock %}
+
+
+{% block content %}
+
+
+    <div class="col-md-8 Link-form">
+<h1>Log in</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="form-group">
+            <label for="{{ field.name }}">{{ field.label}}</label>
+        {{ field }}
+        </div>
+
+    {% endfor %}
+    <input type="Submit" class="btn btn-light" value="Add">
+</form>
+</div>
+
+{% endblock %}

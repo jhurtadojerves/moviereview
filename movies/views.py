@@ -39,11 +39,12 @@ class MovieDetail(FormMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(MovieDetail, self).get_context_data(**kwargs)
-        profile = Profile.objects.get(user=self.request.user)
-        movie = Movie.objects.get(slug=self.kwargs['slug'])
+        if self.request.user.is_authenticated():
+            profile = Profile.objects.get(user=self.request.user)
+            movie = Movie.objects.get(slug=self.kwargs['slug'])
 
-        if Review.objects.filter(user=profile, movie=movie).exists():
-            context['created_comment'] = True
+            if Review.objects.filter(user=profile, movie=movie).exists():
+                context['created_comment'] = True
         return context
 
     def post(self, request, *args, **kwargs):

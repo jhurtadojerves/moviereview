@@ -1,6 +1,8 @@
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 
 from .forms import CreateForm
@@ -20,6 +22,7 @@ class DirectorDetail(DetailView):
     context_object_name = 'director'
 
 
+@method_decorator(login_required, name='dispatch')
 class DirectorCreate(CreateView):
     model = Director
     form_class = CreateForm

@@ -26,6 +26,7 @@ class CreateForm(ModelForm):
             'director': forms.Select(attrs={'class': 'form-control'}),
         }
 
+
 class ReviewCreateForm(ModelForm):
     class Meta:
         model = Review

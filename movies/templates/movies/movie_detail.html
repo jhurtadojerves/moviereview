@@ -21,7 +21,9 @@
             <p><b>Director: </b><a href="{% url 'Director:detail' movie.director.slug %}">{{ movie.director }}</a></p>
             <p><b>Created Date: </b>{{ movie.created_date }}</p>
             <p><b>Added by: </b><a href="{% url 'Profile:detail' movie.author.user %}">{{ movie.author }}</a></p>
-            <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:update' movie.slug %}" role="button">Edit</a></p>
+            {% if user.is_authenticated %}
+                <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:update' movie.slug %}" role="button">Edit</a></p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
@@ -29,7 +31,7 @@
 
 {% block content %}
 
-    {% if not created_comment %}
+    {% if user.is_authenticated and not created_comment %}
         <h2>Add Review</h2> <br>
         <p>
             <form method="post" action="" enctype="multipart/form-data">
