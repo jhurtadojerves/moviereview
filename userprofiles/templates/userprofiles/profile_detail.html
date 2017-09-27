@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load app_filters %}
+{% load static %}
+{% block title %}
+    {{ director.get_full_name }}
+{% endblock %}
+
+
+{% block jumbotron %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{{ profile }}</h1>
+            <p style="text-align: justify;">{{ profile.about|linebreaksbr }}</p>
+            {% if profile.user.username == user.username %}
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Edit profile</a></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Movies added by {{ profile }}</h1><br><br>
+     <div class="row">
+
+        {% for movie in profile.movies.all %}
+        <div class="card-group col-sm-3 text-justify">
+
+            <div class="card border-secondary mb-3">
+                <a href="{% url 'Movie:detail' movie.slug %}" style="text-decoration: none; color:black;">
+                    <img class="card-img-top" src="{{ movie.cover.url }}" alt="Card image cap" width="150">
+                    <div class="card-body">
+
+                        <h4 class="card-title">{{ movie.title }}</h4>
+                        <span class="star star-{{ movie.slug|ratio }}">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </span>
+
+                        <p class="card-text">{{ movie.synopsis|linebreaksbr }}</p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}

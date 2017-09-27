@@ -1,0 +1,49 @@
+span.star-1 > :nth-child(1){
+    color: #FFD700;
+}
+
+span.star-2 > :nth-child(1){
+    color: #FFD700;
+}
+span.star-2 > :nth-child(2){
+    color: #FFD700;
+}
+
+span.star-3 > :nth-child(1){
+    color: #FFD700;
+}
+span.star-3 > :nth-child(2){
+    color: #FFD700;
+}
+span.star-3 > :nth-child(3){
+    color: #FFD700;
+}
+
+span.star-4 > :nth-child(1){
+    color: #FFD700;
+}
+span.star-4 > :nth-child(2){
+    color: #FFD700;
+}
+span.star-4 > :nth-child(3){
+    color: #FFD700;
+}
+span.star-4 > :nth-child(4){
+    color: #FFD700;
+}
+
+span.star-5 > :nth-child(1){
+    color: #FFD700;
+}
+span.star-5 > :nth-child(2){
+    color: #FFD700;
+}
+span.star-5 > :nth-child(3){
+    color: #FFD700;
+}
+span.star-5 > :nth-child(4){
+    color: #FFD700;
+}
+span.star-5 > :nth-child(5){
+    color: #FFD700;
+}

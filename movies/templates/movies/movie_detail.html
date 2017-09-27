@@ -28,11 +28,34 @@
 
 
 {% block content %}
-    <h2>Reviews about this movie</h2> <br>
+
     {% if not created_comment %}
-        <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:review_create' movie.slug %}" role="button">Add a Review</a></p>
+        <h2>Add Review</h2> <br>
+        <p>
+            <form method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label for="{{ field.name }}">{{ field.label}}</label>
+                        {{ field }}
+                    </div>
+
+                {% endfor %}
+                <input type="Submit" class="btn btn-light" value="Add">
+            </form>
+        </p>
     {% endif %}
+
     {% if movie.review_set.all %}
+        <br><h2>Reviews about this movie</h2> <br>
         {% for review in movie.review_set.all %}
             <div class="card mb-3">
             <div class="card-body">

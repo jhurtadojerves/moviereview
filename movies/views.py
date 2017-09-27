@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic.edit import FormMixin
 
 from .forms import UpdateForm, CreateForm, ReviewCreateForm
 
@@ -31,8 +32,9 @@ class MovieList(ListView):
     context_object_name = 'movies'
 
 
-class MovieDetail(DetailView):
+class MovieDetail(FormMixin, DetailView):
     model = Movie
+    form_class = ReviewCreateForm
     context_object_name = 'movie'
 
     def get_context_data(self, **kwargs):
@@ -43,6 +45,22 @@ class MovieDetail(DetailView):
         if Review.objects.filter(user=profile, movie=movie).exists():
             context['created_comment'] = True
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.instance.user = Profile.objects.get(user=self.request.user)
+        movie = Movie.objects.get(slug=self.kwargs['slug'])
+        form.instance.movie = movie
+        form.save()
+
+        return HttpResponseRedirect(reverse('Movie:detail', args=(movie.slug,)))
 
 
 @method_decorator(login_required, name='dispatch')
