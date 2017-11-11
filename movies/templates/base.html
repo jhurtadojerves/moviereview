@@ -42,9 +42,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'Movie:list' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Director:list' %}">Directors</a>
-                </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'Profile:detail' user.username %}">Profile</a>
@@ -52,6 +49,14 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'Profile:sign_out' %}">LogOut</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Profile:sign_up' %}">SignUp</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Profile:sign_in' %}">SignIn</a>
                     </li>
                 {% endif %}
             </ul>

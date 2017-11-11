@@ -9,13 +9,13 @@ from userprofiles.models import Profile
 
 
 class Movie(models.Model):
-    title = models.TextField(blank=False, unique=True)
-    synopsis = models.TextField(blank=False)
+    title = models.TextField(unique=True)
+    synopsis = models.TextField()
     author = models.ForeignKey(Profile, related_name='movies')
-    director = models.ForeignKey(Director, related_name='movies')
+    director = models.TextField()
     created_date = models.DateField(auto_now_add=True)
     slug = AutoSlugField(unique=True, populate_from='title', always_update=True)
-    cover = models.ImageField(default='none.png')
+    cover = models.ImageField()
     star = models.ManyToManyField(Profile, through='Review')
 
     def __str__(self):

@@ -18,10 +18,10 @@
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </span>
             <p style="text-align: justify;">{{ movie.synopsis|linebreaksbr }}</p>
-            <p><b>Director: </b><a href="{% url 'Director:detail' movie.director.slug %}">{{ movie.director }}</a></p>
+            <p><b>Director: </b><a href="#">{{ movie.director }}</a></p>
             <p><b>Created Date: </b>{{ movie.created_date }}</p>
             <p><b>Added by: </b><a href="{% url 'Profile:detail' movie.author.user %}">{{ movie.author }}</a></p>
-            {% if user.is_authenticated %}
+            {% if user.is_staff %}
                 <p><a class="btn btn-primary btn-lg" href="{% url 'Movie:update' movie.slug %}" role="button">Edit</a></p>
             {% endif %}
         </div>

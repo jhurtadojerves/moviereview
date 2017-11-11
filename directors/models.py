@@ -3,6 +3,7 @@ from autoslug import AutoSlugField
 
 # Create your models here.
 
+
 class Director(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)

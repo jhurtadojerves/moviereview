@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
@@ -18,7 +20,7 @@ from userprofiles.models import Profile
 class MovieCreate(CreateView):
     model = Movie
     form_class = CreateForm
-    template_name_suffix = '_form_create'
+    template_name_suffix = '_create'
 
     def form_valid(self, form):
         form.instance.author = Profile.objects.get(user=self.request.user)
@@ -64,13 +66,19 @@ class MovieDetail(FormMixin, DetailView):
         return HttpResponseRedirect(reverse('Movie:detail', args=(movie.slug,)))
 
 
-@method_decorator(login_required, name='dispatch')
-class MovieUpdate(UpdateView):
+class MovieUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = 'staff_member_required'
+    login_url = 'Profile:sign_in'
     model = Movie
     form_class = UpdateForm
+    template_name_suffix = '_update'
 
     def get_success_url(self):
         return reverse_lazy('Movie:detail', args=(self.object.slug,))
+
+    def handle_no_permission(self):
+        messages.error(self.request, 'Only member of staff can update movies')
+        return super(MovieUpdate, self).handle_no_permission()
 
 
 @method_decorator(login_required, name='dispatch')
@@ -83,6 +91,7 @@ class ReviewCreate(CreateView):
         profile = Profile.objects.get(user=self.request.user)
         movie = Movie.objects.get(slug=self.kwargs['slug'])
         if Review.objects.filter(user=profile, movie=movie).exists():
+            messages.add_message(self.request, 1, 'You can only create one review per movie.')
             return HttpResponseRedirect(reverse('Movie:review_update', args=(movie.slug,)))
         else:
             return super(ReviewCreate, self).get(request, *args, **kwargs)
@@ -110,7 +119,7 @@ class ReviewUpdate(UpdateView):
         profile = Profile.objects.get(user=self.request.user)
         movie = Movie.objects.get(slug=self.kwargs['slug'])
         if not Review.objects.filter(user=profile, movie=movie).exists():
-            return HttpResponseRedirect(reverse('Movie:review_create', args=(movie.slug,)))
+            return HttpResponseRedirect(reverse('Movie:detail', args=(movie.slug,)))
         else:
             return super(ReviewUpdate, self).get(request, *args, **kwargs)
 
